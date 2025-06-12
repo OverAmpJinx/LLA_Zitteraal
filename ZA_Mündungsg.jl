@@ -4,7 +4,7 @@ using  Parameters, Plots, LinearAlgebra, GeometryBasics
 # Also snippets genommen aus FieldSim
 # ─────────────────────────── physical constants & geometry ───────────────────────────
 μ0       = 4π * 1e-7        # vacuum permeability (N A⁻²)
-I_total  = 300.0            # current per rail (A)
+I_total  = 400.0            # current per rail (A)
 
 l_prj = 0.01                # width of projectile, aka just the gap lol
 m_prj = 0.010                # mass of prj 10 grams
@@ -46,7 +46,7 @@ function B(p::Point2)
 end
 # ─────────────────────────────── Lorentz Force function ───────────────────────────────────
 function LorentzF(rail_depth)
-    By = B(p_gap)[2]  
+    By = 2* B(p_gap)[2]  
     return I_total*l_prj*By
 end
 FL = LorentzF(rail_depth)   # this is the part where i make a typical assumption of no friction because i engineered the rails and projectile perfect
@@ -59,7 +59,7 @@ a = acc(FL, m_prj)
 
 
 # ─────────────────────────────── OUTPUT ───────────────────────────────────
-println("Magnetfeld Stärke B=", B(p_gap)[2])
+println("Magnetfeld Stärke B=", 2* B(p_gap)[2])
 println("Lorentz Kraft F_L=", LorentzF(rail_depth))
 println("Beschleunigung a=", acc(FL, m_prj))
 
