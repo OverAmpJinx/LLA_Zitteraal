@@ -1,8 +1,8 @@
-### Rail‑gun magnetic‑field visualisation (rectangular rails, opposite currents)
-# Julia ≥ 1.10   ─ run with `julia --project -e "include(\"railgun_bfield.jl\")"`
+### Rail‑gun magnetic‑field visualisation 
+# Julia ≥ 1.10   Sim is by far not perfect
 
-using CairoMakie          # static / vector backend; swap for GLMakie if you need interaction
-CairoMakie.activate!()
+using CairoMakie     
+CairoMakie.activate!()          # CairoMakie hates me
 using StaticArrays, GeometryBasics, LinearAlgebra
 
 # ─────────────────────────── physical constants & geometry ───────────────────────────
@@ -13,7 +13,6 @@ I_total  = 700.0            # current per rail (A)
 rail_h   = 0.025             # height  (y‑direction)  = 2.5 cm
 rail_len = 0.04             # length  (x‑direction)  = 4 cm
 gap      = 0.01             # air gap between inner faces = 1 cm
-
 rail_x1  = 0.0                               # inner face of left rail
 rail_x2  = rail_x1 + rail_len + gap          # inner face of right rail
 rail_y0, rail_y1 = 0.0, rail_h               # bottom / top of rails
@@ -69,7 +68,7 @@ xspan = (rail_x1 - pad) .. (rail_x2 + rail_len + pad)
 yspan = (rail_y0 - pad) .. (rail_y1 + pad)
 
 # darkred (strong) → orange → yellow (weak)
-field_cmap = cgrad([:darkred, :red, :orange, :black])
+field_cmap = cgrad([:black, :orange, :red, :darkred])
 
 # 1️⃣ streamlines coloured by log10|B| for better contrast
 sp = streamplot!(ax, B, xspan, yspan;

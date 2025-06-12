@@ -1,4 +1,4 @@
-using  Parameters, Plots, LinearAlgebra
+using  Parameters, Plots, LinearAlgebra, GeometryBasics
 
 # ------Code zum berechnen der Mündungsgeschwindigkeit des Projektils
 # Also snippets genommen aus FieldSim
@@ -32,13 +32,15 @@ p_gap = Point2(rail_x1 + rail_len + gap/2,   # x-Koordinate
                rail_h/2)                     # y-Koordinate
 # ─────────────────────────────── B‑field function ───────────────────────────────────
 function B(p::Point2)
-    bx = 0.0; by = 0.0
+    bx = 0.0;  by = 0.0
     for (x0, y0, s) in filaments
-        dx, dy = p[1] - x0, p[2] - y0
-        r2     = dx^2 + dy^2 + 1e-20
-        fac    = s * μ0 * dI / (4π * r2 * sqrt(r2))
-        bx    -= fac * dy
-        by    += fac * dx
+        dx = p[1] - x0
+        dy = p[2] - y0
+        r2 = dx^2 + dy^2 + 1e-20
+        # ----- lineares (sehr langes) Leitersegment -----
+        fac = s * μ0 * dI / (2π * r2)   # 1/r
+        bx -= fac * dy                  #   φ-Komponente
+        by += fac * dx
     end
     return Point2f(bx, by)
 end
